@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aromas de Alta Frequência — Controle Individual</title>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- TELA DE LOGIN -->
+<div id="tela-login" class="login-tela">
+  <div class="login-card">
+    <div class="marca">Aromas de Alta Frequência</div>
+    <div class="submarca">Controle Individual</div>
+    <div class="divisor-folha"></div>
+
+    <div id="erro-login" class="mensagem-erro"></div>
+
+    <form id="form-login">
+      <div class="campo">
+        <label>E-mail</label>
+        <input type="email" id="login-email" required>
+      </div>
+      <div class="campo">
+        <label>Senha</label>
+        <input type="password" id="login-senha" required minlength="6">
+      </div>
+      <button type="submit" class="btn-principal" id="btn-entrar">Entrar</button>
+    </form>
+
+    <div class="link-alternar" id="abrir-recuperar-senha">
+      Esqueceu a senha? <span>Redefinir</span>
+    </div>
+  </div>
+
+  <!-- FORMULÁRIO: pedir link de redefinição por e-mail -->
+  <div class="login-card" id="card-recuperar-senha" style="display:none;">
+    <div class="marca">Redefinir senha</div>
+    <div class="submarca">Enviaremos um link por e-mail</div>
+    <div class="divisor-folha"></div>
+
+    <div id="erro-recuperar" class="mensagem-erro"></div>
+    <div id="sucesso-recuperar" class="mensagem-erro" style="background:rgba(74,93,58,0.12); color:var(--verde-oliva-escuro);"></div>
+
+    <form id="form-recuperar-senha">
+      <div class="campo">
+        <label>E-mail cadastrado</label>
+        <input type="email" id="recuperar-email" required>
+      </div>
+      <button type="submit" class="btn-principal" id="btn-enviar-recuperacao">Enviar link de redefinição</button>
+    </form>
+
+    <div class="link-alternar" id="voltar-login">
+      <span>Voltar para o login</span>
+    </div>
+  </div>
+
+  <!-- FORMULÁRIO: definir a nova senha (aberto a partir do link do e-mail) -->
+  <div class="login-card" id="card-nova-senha" style="display:none;">
+    <div class="marca">Nova senha</div>
+    <div class="submarca">Escolha uma senha nova para entrar</div>
+    <div class="divisor-folha"></div>
+
+    <div id="erro-nova-senha" class="mensagem-erro"></div>
+
+    <form id="form-nova-senha">
+      <div class="campo">
+        <label>Nova senha</label>
+        <input type="password" id="nova-senha" required minlength="6">
+      </div>
+      <div class="campo">
+        <label>Confirmar nova senha</label>
+        <input type="password" id="confirmar-nova-senha" required minlength="6">
+      </div>
+      <button type="submit" class="btn-principal" id="btn-salvar-nova-senha">Salvar nova senha</button>
+    </form>
+  </div>
+</div>
+
+<!-- APP PRINCIPAL -->
+<div id="app-shell" class="app-shell" style="display:none;">
+  <aside class="sidebar">
+    <div class="marca"><img id="sidebar-logo" style="display:none; max-width:32px; max-height:32px; vertical-align:middle; margin-right:8px; border-radius:4px;">Aromas de Alta Frequência</div>
+      <div class="nav-item ativo" data-pagina="dashboard">
+        <span class="icone"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg></span> Dashboard
+      </div>
+      <div class="nav-item" data-pagina="clientes">
+        <span class="icone"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 21c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/></svg></span> Clientes
+      </div>
+      <div class="nav-item" data-pagina="empresa">
+        <span class="icone"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V7l8-4 8 4v14"/><path d="M9 21v-6h6v6"/><path d="M9 11h.01M15 11h.01M9 15h.01M15 15h.01"/></svg></span> Empresa
+      </div>
+      <div class="nav-item" data-pagina="categorias">
+        <span class="icone"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg></span> Categorias
+      </div>
+      <div class="nav-item" data-pagina="fornecedores">
+        <span class="icone"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/><path d="M12 11v10"/></svg></span> Fornecedores
+      </div>
+      <div class="nav-item" data-pagina="produtos">
+        <span class="icone"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 7.5L12 3 3.5 7.5 12 12l8.5-4.5z"/><path d="M3.5 7.5v9L12 21l8.5-4.5v-9"/><path d="M12 12v9"/></svg></span> Produtos
+      </div>
+      <div class="nav-item" data-pagina="estoque">
+        <span class="icone"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14" rx="1.5"/><path d="M3 7l2-4h14l2 4"/><path d="M9 11h6"/></svg></span> Estoque
+      </div>
+      <div class="nav-item" data-pagina="compras">
+        <span class="icone"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2l1.5 5M18 2l-1.5 5"/><path d="M3.5 7h17l-1.5 11.5a2 2 0 01-2 1.5H7a2 2 0 01-2-1.5L3.5 7z"/><path d="M9 11a3 3 0 006 0"/></svg></span> Compras
+      </div>
+      <div class="nav-item hub" data-pagina="pedidos">
+        <span class="icone"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9l-6-6z"/><path d="M14 3v6h6"/><path d="M9 13l2 2 4-4"/></svg></span> Controle Individual
+      </div>
+      <div class="nav-item" data-pagina="financeiro">
+        <span class="icone"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5c0-1.5 1.2-2 2.5-2s2.5.7 2.5 2-1.2 1.8-2.5 2-2.5.7-2.5 2 1.2 2 2.5 2 2.5-.5 2.5-2"/></svg></span> Financeiro
+      </div>
+      <div class="nav-item" data-pagina="consorcio">
+        <span class="icone"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v9l6 3"/></svg></span> Consórcio
+      </div>
+    </nav>
+  </aside>
+
+  <div id="overlay-menu-mobile" class="overlay-menu-mobile"></div>
+
+  <main class="conteudo">
+    <div class="topo-pagina">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <button id="btn-menu-mobile" class="btn-menu-mobile" aria-label="Abrir menu">☰</button>
+        <div>
+          <h1 id="titulo-pagina">Dashboard</h1>
+          <div class="subtitulo" id="subtitulo-pagina">Visão geral do negócio</div>
+        </div>
+      </div>
+      <button class="btn-sair" id="btn-sair">Sair</button>
+    </div>
+
+    <div id="pagina-clientes" style="display:none;">
+      <div class="barra-acoes">
+        <input type="text" id="busca-cliente" placeholder="Buscar por nome, documento ou telefone...">
+        <button class="btn-novo" id="btn-novo-cliente">+ Novo cliente</button>
+        <button class="btn-sair" onclick="exportarClientesCSV()">Exportar CSV</button>
+      </div>
+
+      <div class="painel">
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Documento</th>
+              <th>Telefone</th>
+              <th>Status</th>
+              <th>Cadastro</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tabela-clientes"></tbody>
+        </table>
+        <div id="vazio-clientes" class="vazio" style="display:none;">
+          <div class="display">Nenhum cliente cadastrado</div>
+          <div>Clique em "+ Novo cliente" para começar o Controle Individual</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="pagina-empresa" style="display:none;">
+      <div class="painel" style="padding:32px; max-width:560px;">
+        <form id="form-empresa">
+          <input type="hidden" id="empresa-id">
+          <div class="campo">
+            <label>Logo</label>
+            <input type="file" id="empresa-logo" accept="image/*">
+            <img id="empresa-logo-preview" style="display:none; max-width:120px; margin-top:10px; border-radius:6px;">
+          </div>
+          <div class="campo">
+            <label>Razão social *</label>
+            <input type="text" id="empresa-razao" required>
+          </div>
+          <div class="linha-dupla">
+            <div class="campo">
+              <label>Nome fantasia</label>
+              <input type="text" id="empresa-fantasia">
+            </div>
+            <div class="campo">
+              <label>CNPJ</label>
+              <input type="text" id="empresa-cnpj">
+            </div>
+          </div>
+          <div class="linha-dupla">
+            <div class="campo">
+              <label>Telefone</label>
+              <input type="text" id="empresa-telefone">
+            </div>
+            <div class="campo">
+              <label>E-mail</label>
+              <input type="email" id="empresa-email">
+            </div>
+          </div>
+          <div class="campo">
+            <label>Endereço</label>
+            <input type="text" id="empresa-endereco">
+          </div>
+          <button type="submit" class="btn-principal">Salvar dados da empresa</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="pagina-categorias" style="display:none;">
+      <div class="barra-acoes">
+        <button class="btn-novo" id="btn-nova-categoria">+ Nova categoria</button>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+        <div class="painel" style="padding:20px;">
+          <h2 style="font-size:16px; margin-bottom:12px;">Categorias de produtos</h2>
+          <table>
+            <thead><tr><th>Nome</th><th></th></tr></thead>
+            <tbody id="tabela-categorias-produto"></tbody>
+          </table>
+          <div id="vazio-categorias-produto" class="vazio" style="display:none; padding:24px;"><div>Nenhuma categoria de produto</div></div>
+        </div>
+        <div class="painel" style="padding:20px;">
+          <h2 style="font-size:16px; margin-bottom:12px;">Categorias financeiras</h2>
+          <table>
+            <thead><tr><th>Nome</th><th></th></tr></thead>
+            <tbody id="tabela-categorias-financeira"></tbody>
+          </table>
+          <div id="vazio-categorias-financeira" class="vazio" style="display:none; padding:24px;"><div>Nenhuma categoria financeira</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="pagina-fornecedores" style="display:none;">
+      <div class="barra-acoes">
+        <input type="text" id="busca-fornecedor" placeholder="Buscar fornecedor...">
+        <button class="btn-novo" id="btn-novo-fornecedor">+ Novo fornecedor</button>
+      </div>
+      <div class="painel">
+        <table>
+          <thead><tr><th>Nome</th><th>Contato</th><th>Telefone</th><th></th></tr></thead>
+          <tbody id="tabela-fornecedores"></tbody>
+        </table>
+        <div id="vazio-fornecedores" class="vazio" style="display:none;">
+          <div class="display">Nenhum fornecedor cadastrado</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="pagina-produtos" style="display:none;">
+      <div class="barra-acoes" style="gap:8px;">
+        <button class="btn-sair sub-aba ativo" data-aba="lista" onclick="alternarAbaProdutos('lista')">Lista</button>
+        <button class="btn-sair sub-aba" data-aba="movimentados" onclick="alternarAbaProdutos('movimentados')">Mais movimentados</button>
+        <input type="text" id="busca-produto" placeholder="Buscar produto...">
+        <button class="btn-novo" id="btn-novo-produto">+ Novo produto</button>
+        <button class="btn-sair" onclick="exportarProdutosCSV()">Exportar CSV</button>
+      </div>
+      <div id="aba-produtos-lista">
+        <div class="painel">
+          <table>
+            <thead><tr><th></th><th>Nome</th><th>Unidade</th><th>Custo</th><th>Venda</th><th>Qtd.</th><th>Validade</th><th></th></tr></thead>
+            <tbody id="tabela-produtos"></tbody>
+          </table>
+          <div id="vazio-produtos" class="vazio" style="display:none;">
+            <div class="display">Nenhum produto cadastrado</div>
+          </div>
+        </div>
+      </div>
+      <div id="aba-produtos-movimentados" style="display:none;">
+        <div class="painel">
+          <table>
+            <thead><tr><th>Produto</th><th>Entradas</th><th>Saídas</th><th>Total movimentado</th><th>Saldo atual</th></tr></thead>
+            <tbody id="tabela-produtos-movimentados"></tbody>
+          </table>
+          <div id="vazio-produtos-movimentados" class="vazio" style="display:none;">
+            <div class="display">Sem movimentações ainda</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="pagina-estoque" style="display:none;">
+      <div class="barra-acoes">
+        <button class="btn-novo" id="btn-novo-movimento">+ Registrar movimento</button>
+      </div>
+      <div class="painel">
+        <table>
+          <thead><tr><th>Data</th><th>Produto</th><th>Tipo</th><th>Qtd.</th><th>Preço unit.</th><th>Cliente</th></tr></thead>
+          <tbody id="tabela-estoque"></tbody>
+        </table>
+        <div id="vazio-estoque" class="vazio" style="display:none;">
+          <div class="display">Nenhum movimento registrado</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="pagina-compras" style="display:none;">
+      <div class="barra-acoes">
+        <button class="btn-novo" id="btn-nova-compra">+ Nova compra / entrada</button>
+      </div>
+      <div class="painel">
+        <table>
+          <thead><tr><th>Data entrada</th><th>Fornecedor</th><th>NF</th><th>Itens</th><th>Total</th><th></th></tr></thead>
+          <tbody id="tabela-compras"></tbody>
+        </table>
+        <div id="vazio-compras" class="vazio" style="display:none;">
+          <div class="display">Nenhuma compra registrada</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="pagina-pedidos" style="display:none;">
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px; margin-bottom:14px;">
+        <div class="painel" style="padding:18px;"><div class="subtitulo">Valor em aberto</div><div class="display" style="font-size:24px; margin-top:4px; color:var(--erro);" id="kpi-pedidos-aberto">—</div></div>
+        <div class="painel" style="padding:18px;"><div class="subtitulo">Valor pago</div><div class="display" style="font-size:24px; margin-top:4px; color:var(--verde-oliva-escuro);" id="kpi-pedidos-pagos">—</div></div>
+        <div class="painel" style="padding:18px;"><div class="subtitulo">Produtos negociados</div><div class="display" style="font-size:24px; margin-top:4px;" id="kpi-pedidos-qtd-produtos">—</div></div>
+        <div class="painel" style="padding:18px;">
+          <div class="subtitulo">Top 3 produtos</div>
+          <div style="font-size:12px; margin-top:6px; line-height:1.6;" id="kpi-pedidos-top3">—</div>
+        </div>
+      </div>
+
+      <div class="painel" style="padding:18px; margin-bottom:22px;">
+        <div class="subtitulo" style="margin-bottom:10px;">Valor pago x Total negociado</div>
+        <div id="grafico-pago-negociado"></div>
+      </div>
+
+      <div class="barra-acoes" style="gap:8px; flex-wrap:wrap;">
+        <button class="btn-sair sub-aba ativo" data-aba="kanban" onclick="alternarAbaPedidos('kanban')">Por cliente</button>
+        <button class="btn-sair sub-aba" data-aba="lista" onclick="alternarAbaPedidos('lista')">Lista</button>
+        <button class="btn-sair sub-aba" data-aba="estatisticas" onclick="alternarAbaPedidos('estatisticas')">Estatísticas</button>
+        <button class="btn-sair" onclick="gerarRelatorioGeral()">Relatório geral</button>
+        <select id="select-relatorio-cliente" style="padding:9px 10px; border:1px solid var(--borda); border-radius:8px; font-family:'Jost',sans-serif; font-size:13px;"></select>
+        <button class="btn-sair" onclick="gerarRelatorioCliente()">Relatório do cliente</button>
+        <select id="select-relatorio-produto" style="padding:9px 10px; border:1px solid var(--borda); border-radius:8px; font-family:'Jost',sans-serif; font-size:13px;"></select>
+        <button class="btn-sair" onclick="gerarRelatorioProduto()">Relatório do produto</button>
+        <button class="btn-novo" id="btn-novo-pedido" style="margin-left:auto;">+ Novo Controle Individual</button>
+      </div>
+
+      <div id="aba-pedidos-kanban">
+        <input type="text" id="busca-kanban-cliente" placeholder="Buscar cliente..." style="margin-bottom:14px; padding:10px 14px; border:1px solid var(--borda); border-radius:8px; font-family:'Jost',sans-serif; font-size:14px; width:100%; max-width:320px;">
+        <div id="grade-kanban-clientes" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px;"></div>
+        <div id="vazio-kanban" class="vazio" style="display:none;"><div class="display">Nenhum cliente com registros ainda</div></div>
+      </div>
+
+      <div id="aba-pedidos-lista" style="display:none;">
+        <div class="painel">
+          <table>
+            <thead><tr><th>Nº</th><th>Cliente</th><th>Data</th><th>Itens</th><th>Total</th><th>Pago</th><th>Status</th><th></th></tr></thead>
+            <tbody id="tabela-pedidos"></tbody>
+          </table>
+          <div id="vazio-pedidos" class="vazio" style="display:none;">
+            <div class="display">Nenhum registro ainda</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="aba-pedidos-estatisticas" style="display:none;">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+          <div class="painel" style="padding:20px;">
+            <h2 style="font-size:16px; margin-bottom:12px;">Por cliente</h2>
+            <table><thead><tr><th>Cliente</th><th>Pedidos</th><th>Total</th></tr></thead><tbody id="stats-por-cliente"></tbody></table>
+          </div>
+          <div class="painel" style="padding:20px;">
+            <h2 style="font-size:16px; margin-bottom:12px;">Por categoria</h2>
+            <table><thead><tr><th>Categoria</th><th>Qtd.</th><th>Total</th></tr></thead><tbody id="stats-por-categoria"></tbody></table>
+          </div>
+        </div>
+        <div class="painel" style="padding:20px; margin-top:16px;">
+          <h2 style="font-size:16px; margin-bottom:12px;">Por produto</h2>
+          <table><thead><tr><th>Produto</th><th>Qtd. vendida</th><th>Receita</th></tr></thead><tbody id="stats-por-produto"></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL DETALHE DO CLIENTE (kanban) -->
+    <div id="modal-cliente-detalhe" class="modal-fundo">
+      <div class="modal" style="max-width:680px;">
+        <h2 id="detalhe-cliente-nome">Cliente</h2>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin:16px 0;">
+          <div class="painel" style="padding:14px;"><div class="subtitulo" style="font-size:11px;">Em aberto</div><div class="display" style="font-size:19px; color:var(--erro);" id="detalhe-cliente-aberto">—</div></div>
+          <div class="painel" style="padding:14px;"><div class="subtitulo" style="font-size:11px;">Total gasto</div><div class="display" style="font-size:19px;" id="detalhe-cliente-total">—</div></div>
+          <div class="painel" style="padding:14px;"><div class="subtitulo" style="font-size:11px;">Produtos negociados</div><div class="display" style="font-size:19px;" id="detalhe-cliente-produtos">—</div></div>
+        </div>
+        <h3 style="font-size:14px; margin-bottom:10px; color:var(--texto-suave);">Registros deste cliente</h3>
+        <div class="painel" style="max-height:320px; overflow-y:auto;">
+          <table>
+            <thead><tr><th>Nº</th><th>Data</th><th>Total</th><th>Pago</th><th>Status</th><th></th></tr></thead>
+            <tbody id="detalhe-cliente-pedidos"></tbody>
+          </table>
+        </div>
+        <div class="modal-acoes">
+          <button type="button" class="btn-cancelar" onclick="document.getElementById('modal-cliente-detalhe').classList.remove('ativo')">Fechar</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="pagina-financeiro" style="display:none;">
+      <div class="barra-acoes" style="gap:8px;">
+        <button class="btn-sair sub-aba ativo" data-aba="receber" onclick="alternarAbaFinanceiro('receber')">Contas a Receber</button>
+        <button class="btn-sair sub-aba" data-aba="pagar" onclick="alternarAbaFinanceiro('pagar')">Contas a Pagar</button>
+        <button class="btn-sair sub-aba" data-aba="dre" onclick="alternarAbaFinanceiro('dre')">DRE</button>
+        <button class="btn-sair sub-aba" data-aba="fluxo" onclick="alternarAbaFinanceiro('fluxo')">Fluxo de Caixa</button>
+        <button class="btn-sair sub-aba" data-aba="custos" onclick="alternarAbaFinanceiro('custos')">Custos & Ponto de Equilíbrio</button>
+      </div>
+
+      <div id="aba-receber">
+        <div class="barra-acoes"><button class="btn-novo" id="btn-nova-conta-receber">+ Nova conta a receber</button><button class="btn-sair" onclick="exportarReceberCSV()">Exportar CSV</button></div>
+        <div class="painel">
+          <table>
+            <thead><tr><th>Cliente</th><th>Descrição</th><th>Valor a receber</th><th>Vencimento</th><th>Valor recebido</th><th>Data recebimento</th><th>Status</th><th></th></tr></thead>
+            <tbody id="tabela-receber"></tbody>
+          </table>
+          <div id="vazio-receber" class="vazio" style="display:none;"><div class="display">Nenhuma conta a receber</div></div>
+        </div>
+      </div>
+
+      <div id="aba-pagar" style="display:none;">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:14px; margin-bottom:18px;">
+          <div class="painel" style="padding:16px;"><div class="subtitulo">Próximos 7 dias</div><div class="display" style="font-size:22px; margin-top:4px; color:var(--dourado);" id="kpi-pagar-7d">—</div></div>
+          <div class="painel" style="padding:16px;"><div class="subtitulo">Próximos 15 dias</div><div class="display" style="font-size:22px; margin-top:4px; color:var(--dourado);" id="kpi-pagar-15d">—</div></div>
+          <div class="painel" style="padding:16px;"><div class="subtitulo">Em atraso</div><div class="display" style="font-size:22px; margin-top:4px; color:var(--erro);" id="kpi-pagar-atraso">—</div></div>
+        </div>
+        <div class="barra-acoes"><button class="btn-novo" id="btn-nova-conta-pagar">+ Nova conta a pagar</button><button class="btn-sair" onclick="exportarPagarCSV()">Exportar CSV</button></div>
+        <div class="painel">
+          <table>
+            <thead><tr><th>Fornecedor</th><th>Descrição</th><th>Valor a pagar</th><th>Vencimento</th><th>Valor pago</th><th>Data pagamento</th><th>Status</th><th></th></tr></thead>
+            <tbody id="tabela-pagar"></tbody>
+          </table>
+          <div id="vazio-pagar" class="vazio" style="display:none;"><div class="display">Nenhuma conta a pagar</div></div>
+        </div>
+      </div>
+
+      <div id="aba-dre" style="display:none;">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:14px; margin-bottom:18px;">
+          <div class="painel" style="padding:16px;"><div class="subtitulo">Receita (mês atual)</div><div class="display" style="font-size:20px; margin-top:4px; color:var(--verde-oliva-escuro);" id="dre-receita-mes">—</div><div style="font-size:11px; color:var(--texto-suave);" id="dre-receita-variacao"></div></div>
+          <div class="painel" style="padding:16px;"><div class="subtitulo">Despesa (mês atual)</div><div class="display" style="font-size:20px; margin-top:4px; color:var(--erro);" id="dre-despesa-mes">—</div><div style="font-size:11px; color:var(--texto-suave);" id="dre-despesa-variacao"></div></div>
+          <div class="painel" style="padding:16px;"><div class="subtitulo">Resultado (mês atual)</div><div class="display" style="font-size:20px; margin-top:4px;" id="dre-resultado-mes">—</div></div>
+          <div class="painel" style="padding:16px;"><div class="subtitulo">Margem</div><div class="display" style="font-size:20px; margin-top:4px;" id="dre-margem-mes">—</div></div>
+        </div>
+
+        <div class="painel" style="padding:20px; margin-bottom:16px;">
+          <h2 style="font-size:16px; margin-bottom:14px;">Receita x Despesa — últimos 6 meses</h2>
+          <div id="grafico-dre-comparativo"></div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
+          <div class="painel" style="padding:20px;">
+            <h2 style="font-size:16px; margin-bottom:12px;">Resultado por mês</h2>
+            <table>
+              <thead><tr><th>Mês</th><th>Receitas</th><th>Despesas</th><th>Resultado</th><th>Margem</th></tr></thead>
+              <tbody id="tabela-dre"></tbody>
+            </table>
+            <div id="vazio-dre" class="vazio" style="display:none;"><div class="display">Sem dados ainda — aparece quando houver pagamentos registrados</div></div>
+          </div>
+          <div class="painel" style="padding:20px;">
+            <h2 style="font-size:16px; margin-bottom:12px;">Maiores despesas do mês</h2>
+            <table>
+              <thead><tr><th>Descrição</th><th>Valor</th></tr></thead>
+              <tbody id="tabela-dre-top-despesas"></tbody>
+            </table>
+            <div id="vazio-dre-top" class="vazio" style="display:none;"><div class="display">Sem despesas neste mês</div></div>
+          </div>
+        </div>
+
+        <div class="painel" style="padding:20px;">
+          <h2 style="font-size:16px; margin-bottom:12px;">Despesas pagas por categoria (mês atual)</h2>
+          <table>
+            <thead><tr><th>Categoria</th><th>Total</th></tr></thead>
+            <tbody id="tabela-dre-categorias"></tbody>
+          </table>
+          <div id="vazio-dre-categorias" class="vazio" style="display:none;"><div class="display">Sem despesas categorizadas neste mês</div></div>
+        </div>
+      </div>
+
+      <div id="aba-custos" style="display:none;">
+        <div class="painel" style="padding:22px; margin-bottom:18px;">
+          <h2 style="font-size:17px; margin-bottom:4px;">Ponto de equilíbrio</h2>
+          <div style="font-size:12px; color:var(--texto-suave); margin-bottom:16px;">Quanto você precisa negociar por mês pra cobrir seus custos, calculado a partir dos custos cadastrados abaixo e do que já foi recebido este mês.</div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px;">
+            <div><div class="subtitulo">Custos fixos/mês</div><div class="display" style="font-size:20px;" id="pe-custos-fixos">—</div></div>
+            <div><div class="subtitulo">% custos variáveis</div><div class="display" style="font-size:20px;" id="pe-percentual-variavel">—</div></div>
+            <div><div class="subtitulo">Meta de venda (ponto de equilíbrio)</div><div class="display" style="font-size:20px; color:var(--dourado);" id="pe-meta-venda">—</div></div>
+            <div><div class="subtitulo">Já recebido este mês</div><div class="display" style="font-size:20px; color:var(--verde-oliva-escuro);" id="pe-ja-recebido">—</div></div>
+            <div><div class="subtitulo">Falta negociar</div><div class="display" style="font-size:20px; color:var(--erro);" id="pe-falta-negociar">—</div></div>
+          </div>
+          <div style="margin-top:16px;">
+            <div style="width:100%; height:14px; background:var(--marrom-claro); border-radius:20px; overflow:hidden;">
+              <div id="pe-barra-progresso" style="width:0%; height:100%; background:var(--verde-oliva); border-radius:20px; transition:width 0.3s;"></div>
+            </div>
+            <div style="text-align:right; font-size:11px; color:var(--texto-suave); margin-top:4px;" id="pe-percentual-atingido"></div>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+          <div class="painel" style="padding:20px;">
+            <div class="barra-acoes" style="margin-bottom:12px;">
+              <h2 style="font-size:16px;">Custos fixos</h2>
+              <button class="btn-novo" style="margin-left:auto; padding:7px 14px; font-size:12px;" onclick="abrirNovoCusto('fixo')">+ Fixo</button>
+            </div>
+            <table><thead><tr><th>Nome</th><th>Valor/mês</th><th></th></tr></thead><tbody id="tabela-custos-fixos"></tbody></table>
+            <div id="vazio-custos-fixos" class="vazio" style="display:none; padding:20px;"><div>Nenhum custo fixo cadastrado</div></div>
+          </div>
+          <div class="painel" style="padding:20px;">
+            <div class="barra-acoes" style="margin-bottom:12px;">
+              <h2 style="font-size:16px;">Custos variáveis</h2>
+              <button class="btn-novo" style="margin-left:auto; padding:7px 14px; font-size:12px;" onclick="abrirNovoCusto('variavel')">+ Variável</button>
+            </div>
+            <table><thead><tr><th>Nome</th><th>% sobre venda</th><th></th></tr></thead><tbody id="tabela-custos-variaveis"></tbody></table>
+            <div id="vazio-custos-variaveis" class="vazio" style="display:none; padding:20px;"><div>Nenhum custo variável cadastrado</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="aba-fluxo" style="display:none;">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:14px; margin-bottom:18px;">
+          <div class="painel" style="padding:16px;"><div class="subtitulo">Total a receber (aberto)</div><div class="display" style="font-size:20px; margin-top:4px; color:var(--verde-oliva-escuro);" id="fluxo-total-entrada">—</div></div>
+          <div class="painel" style="padding:16px;"><div class="subtitulo">Total a pagar (aberto)</div><div class="display" style="font-size:20px; margin-top:4px; color:var(--erro);" id="fluxo-total-saida">—</div></div>
+          <div class="painel" style="padding:16px;"><div class="subtitulo">Saldo projetado</div><div class="display" style="font-size:20px; margin-top:4px;" id="fluxo-saldo-projetado">—</div></div>
+        </div>
+        <div class="painel">
+          <table>
+            <thead><tr><th>Vencimento</th><th>Tipo</th><th>Descrição</th><th>Valor</th><th>Status</th><th>Saldo acumulado</th></tr></thead>
+            <tbody id="tabela-fluxo"></tbody>
+          </table>
+          <div id="vazio-fluxo" class="vazio" style="display:none;"><div class="display">Sem lançamentos ainda</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="pagina-dashboard">
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px; margin-bottom:20px;">
+        <div class="painel" style="padding:20px;"><div class="subtitulo">Clientes ativos</div><div class="display" style="font-size:28px; margin-top:6px;" id="kpi-clientes">—</div></div>
+        <div class="painel" style="padding:20px;"><div class="subtitulo">Produtos cadastrados</div><div class="display" style="font-size:28px; margin-top:6px;" id="kpi-produtos">—</div></div>
+        <div class="painel" style="padding:20px;"><div class="subtitulo">Valor em estoque (custo)</div><div class="display" style="font-size:28px; margin-top:6px;" id="kpi-valor-estoque">—</div></div>
+        <div class="painel" style="padding:20px;"><div class="subtitulo">Controle Individual — mês</div><div class="display" style="font-size:28px; margin-top:6px;" id="kpi-pedidos-mes">—</div></div>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px; margin-bottom:20px;">
+        <div class="painel" style="padding:20px;"><div class="subtitulo">A receber em aberto</div><div class="display" style="font-size:26px; margin-top:6px; color:var(--verde-oliva-escuro);" id="kpi-receber">—</div></div>
+        <div class="painel" style="padding:20px;"><div class="subtitulo">A pagar em aberto</div><div class="display" style="font-size:26px; margin-top:6px; color:var(--erro);" id="kpi-pagar">—</div></div>
+        <div class="painel" style="padding:20px;"><div class="subtitulo">Contas em atraso</div><div class="display" style="font-size:26px; margin-top:6px; color:var(--erro);" id="kpi-atraso">—</div></div>
+        <div class="painel" style="padding:20px;"><div class="subtitulo">Ticket médio</div><div class="display" style="font-size:26px; margin-top:6px;" id="kpi-ticket-medio">—</div></div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1.4fr 1fr; gap:16px; margin-bottom:20px;">
+        <div class="painel" style="padding:24px;">
+          <h2 style="font-size:18px; margin-bottom:14px;">Receita — últimos 6 meses</h2>
+          <div id="grafico-receita"></div>
+        </div>
+        <div class="painel" style="padding:24px;">
+          <h2 style="font-size:18px; margin-bottom:14px;">Melhores clientes</h2>
+          <table><tbody id="tabela-melhores-clientes"></tbody></table>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+        <div class="painel" style="padding:24px;">
+          <h2 style="font-size:18px; margin-bottom:14px;">Controle Individual recente</h2>
+          <table>
+            <thead><tr><th>Cliente</th><th>Data</th><th>Total</th><th>Status</th></tr></thead>
+            <tbody id="tabela-dashboard-pedidos"></tbody>
+          </table>
+        </div>
+        <div class="painel" style="padding:24px;">
+          <h2 style="font-size:18px; margin-bottom:14px;">Produtos com estoque baixo</h2>
+          <table>
+            <thead><tr><th>Produto</th><th>Qtd. atual</th></tr></thead>
+            <tbody id="tabela-estoque-baixo"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="pagina-consorcio" style="display:none;">
+      <div class="barra-acoes">
+        <button class="btn-novo" id="btn-novo-consorcio">+ Novo consórcio</button>
+      </div>
+      <div id="grade-consorcios" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:14px;"></div>
+      <div id="vazio-consorcios" class="vazio" style="display:none;"><div class="display">Nenhum consórcio cadastrado</div></div>
+    </div>
+
+    <div id="pagina-em-breve" style="display:none;">
+      <div class="em-breve">
+        <div class="display">Módulo em construção</div>
+        <div>Essa parte do sistema chega na próxima fase, ligada ao Controle Individual.</div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- MODAL NOVO CONSÓRCIO -->
+<div id="modal-consorcio" class="modal-fundo">
+  <div class="modal">
+    <h2>Novo consórcio</h2>
+    <form id="form-consorcio">
+      <div class="campo">
+        <label>Nome do consórcio *</label>
+        <input type="text" id="consorcio-nome" required>
+      </div>
+      <div class="linha-dupla">
+        <div class="campo">
+          <label>Valor da parcela *</label>
+          <input type="number" id="consorcio-valor" step="0.01" required>
+        </div>
+        <div class="campo">
+          <label>Mês de início *</label>
+          <input type="month" id="consorcio-mes-inicio" required>
+        </div>
+      </div>
+      <div class="modal-acoes">
+        <button type="button" class="btn-cancelar" onclick="document.getElementById('modal-consorcio').classList.remove('ativo')">Cancelar</button>
+        <button type="submit" class="btn-principal">Criar consórcio</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL DETALHE DO CONSÓRCIO -->
+<div id="modal-consorcio-detalhe" class="modal-fundo">
+  <div class="modal" style="max-width:720px;">
+    <h2 id="detalhe-consorcio-nome">Consórcio</h2>
+    <div id="detalhe-consorcio-sub" style="font-size:12px; color:var(--texto-suave); margin-bottom:14px;"></div>
+
+    <div class="barra-acoes" style="gap:8px;">
+      <button class="btn-sair sub-aba ativo" data-aba="mes-atual" onclick="alternarAbaConsorcio('mes-atual')">Mês atual</button>
+      <button class="btn-sair sub-aba" data-aba="historico" onclick="alternarAbaConsorcio('historico')">Histórico</button>
+      <button class="btn-sair" id="btn-add-participante-consorcio" style="margin-left:auto;">+ Participante</button>
+    </div>
+
+    <div id="aba-consorcio-mes-atual">
+      <div id="consorcio-sem-mes" style="display:none; padding:20px; text-align:center; color:var(--texto-suave);">
+        Nenhum mês em aberto. Adicione participantes para iniciar o primeiro mês.
+      </div>
+      <div id="consorcio-mes-conteudo" style="display:none;">
+        <div style="font-family:'Cormorant Garamond',serif; font-size:20px; margin:14px 0 10px;" id="consorcio-mes-titulo"></div>
+        <div class="painel">
+          <table>
+            <thead><tr><th>Participante</th><th>Status</th><th>Pagou este mês</th></tr></thead>
+            <tbody id="tabela-consorcio-participantes"></tbody>
+          </table>
+        </div>
+        <div class="campo" style="margin-top:16px;">
+          <label>Sorteado deste mês</label>
+          <select id="consorcio-select-sorteado" style="width:100%; padding:12px 14px; border:1px solid var(--borda); border-radius:8px; font-family:'Jost',sans-serif; font-size:15px;"></select>
+        </div>
+        <div class="modal-acoes">
+          <button type="button" class="btn-cancelar" id="btn-gerar-sorteios-anteriores">Gerar meses anteriores</button>
+          <button type="button" class="btn-principal" id="btn-fechar-mes-consorcio">Sortear e fechar mês</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="aba-consorcio-historico" style="display:none;">
+      <div class="painel" style="max-height:360px; overflow-y:auto;">
+        <table>
+          <thead><tr><th>Mês</th><th>Sorteado</th><th>Data sorteio</th><th>Pagamentos</th></tr></thead>
+          <tbody id="tabela-consorcio-historico"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="modal-acoes">
+      <button type="button" class="btn-sair" onclick="gerarRelatorioConsorcio()">Relatório</button>
+      <button type="button" class="btn-cancelar" onclick="document.getElementById('modal-consorcio-detalhe').classList.remove('ativo')">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ADICIONAR PARTICIPANTE -->
+<div id="modal-add-participante" class="modal-fundo">
+  <div class="modal">
+    <h2>Adicionar participante</h2>
+    <form id="form-add-participante">
+      <div class="campo">
+        <label>Cliente *</label>
+        <select id="participante-cliente" required style="width:100%; padding:12px 14px; border:1px solid var(--borda); border-radius:8px; font-family:'Jost',sans-serif; font-size:15px;"></select>
+      </div>
+      <div class="modal-acoes">
+        <button type="button" class="btn-cancelar" onclick="document.getElementById('modal-add-participante').classList.remove('ativo')">Cancelar</button>
+        <button type="submit" class="btn-principal">Adicionar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL CONTA A PAGAR -->
+<div id="modal-conta-pagar" class="modal-fundo">
+  <div class="modal">
+    <h2>Nova conta a pagar</h2>
+    <form id="form-conta-pagar">
+      <div class="campo">
+        <label>Fornecedor</label>
+        <select id="pagar-fornecedor" style="width:100%; padding:12px 14px; border:1px solid var(--borda); border-radius:8px; font-family:'Jost',sans-serif; font-size:15px;"><option value="">Nenhum</option></select>
+      </div>
+      <div class="campo">
+        <label>Descrição *</label>
+        <input type="text" id="pagar-descricao" required>
+      </div>
+      <div class="linha-dupla">
+        <div class="campo">
+          <label>Valor total *</label>
+          <input type="number" id="pagar-valor" step="0.01" required>
+        </div>
+        <div class="campo">
+          <label>1º vencimento *</label>
+          <input type="date" id="pagar-vencimento" required>
+        </div>
+      </div>
+      <div class="linha-dupla">
+        <div class="campo">
+          <label>Parcelas</label>
+          <input type="number" id="pagar-parcelas" min="1" value="1">
+        </div>
+        <div class="campo">
+          <label>Valor por parcela</label>
+          <input type="number" id="pagar-valor-parcela" step="0.01" readonly style="background:var(--marrom-claro);">
+        </div>
+      </div>
+      <div class="campo">
+        <label>Categoria</label>
+        <select id="pagar-categoria" style="width:100%; padding:12px 14px; border:1px solid var(--borda); border-radius:8px; font-family:'Jost',sans-serif; font-size:15px;"><option value="">Nenhuma</option></select>
+      </div>
+      <div class="modal-acoes">
+        <button type="button" class="btn-cancelar" onclick="document.getElementById('modal-conta-pagar').classList.remove('ativo')">Cancelar</button>
+        <button type="submit" class="btn-principal">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL CONTA A RECEBER (manual) -->
+<div id="modal-conta-receber" class="modal-fundo">
+  <div class="modal">
+    <h2>Nova conta a receber</h2>
+    <form id="form-conta-receber">
+      <div class="campo">
+        <label>Cliente *</label>
+        <select id="receber-cliente" required style="width:100%; padding:12px 14px; border:1px solid var(--borda); border-radius:8px; font-family:'Jost',sans-serif; font-size:15px;"></select>
+      </div>
+      <div class="campo">
+        <label>Descrição *</label>
+        <input type="text" id="receber-descricao" required>
+      </div>
+      <div class="linha-dupla">
+        <div class="campo">
+          <label>Valor total *</label>
+          <input type="number" id="receber-valor" step="0.01" required>
+        </div>
+        <div class="campo">
+          <label>1º vencimento *</label>
+          <input type="date" id="receber-vencimento" required>
+        </div>
+      </div>
+      <div class="linha-dupla">
+        <div class="campo">
+          <label>Parcelas</label>
+          <input type="number" id="receber-parcelas" min="1" value="1">
+        </div>
+        <div class="campo">
+          <label>Valor por parcela</label>
+          <input type="number" id="receber-valor-parcela" step="0.01" readonly style="background:var(--marrom-claro);">
+        </div>
+      </div>
+      <div class="modal-acoes">
+        <button type="button" class="btn-cancelar" onclick="document.getElementById('modal-conta-receber').classList.remove('ativo')">Cancelar</button>
+        <button type="submit" class="btn-principal">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL EDITAR / PAGAR CONTA (receber ou pagar) -->
+<div id="modal-conta-editar" class="modal-fundo">
+  <div class="modal">
+    <h2 id="modal-conta-editar-titulo">Editar lançamento</h2>
+    <form id="form-conta-editar">
+      <input type="hidden" id="editar-conta-tabela">
+      <input type="hidden" id="editar-conta-id">
+      <div class="campo">
+        <label>Descrição *</label>
+        <input type="text" id="editar-descricao" required>
+      </div>
+      <div class="linha-dupla">
+        <div class="campo">
+          <label>Valor *</label>
+          <input type="number" id="editar-valor" step="0.01" required>
+        </div>
+        <div class="campo">
+          <label>Vencimento *</label>
+          <input type="date" id="editar-vencimento" required>
+        </div>
+      </div>
+      <div class="campo">
+        <label>Status</label>
+        <select id="editar-status" style="width:100%; padding:12px 14px; border:1px solid var(--borda); border-radius:8px; font-family:'Jost',sans-serif; font-size:15px;">
+          <option value="aberto">Em aberto</option>
+          <option value="parcial">Parcial</option>
+          <option value="pago">Pago</option>
+        </select>
+      </div>
+      <div class="campo" id="editar-bloco-categoria" style="display:none;">
+        <label>Categoria</label>
+        <select id="editar-categoria" style="width:100%; padding:12px 14px; border:1px solid var(--borda); border-radius:8px; font-family:'Jost',sans-serif; font-size:15px;"><option value="">Nenhuma</option></select>
+      </div>
+      <div id="editar-bloco-pagamento" class="linha-dupla" style="display:none;">
+        <div class="campo">
+          <label>Data do pagamento</label>
+          <input type="date" id="editar-pago-em">
+        </div>
+        <div class="campo">
+          <label>Valor pago</label>
+          <input type="number" id="editar-valor-pago" step="0.01">
+        </div>
+      </div>
+      <div class="modal-acoes">
+        <button type="button" class="btn-cancelar" onclick="document.getElementById('modal-conta-editar').classList.remove('ativo')">Cancelar</button>
+        <button type="submit" class="btn-principal">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL MOVIMENTO DE ESTOQUE -->
+<div id="modal-movimento" class="modal-fundo">
+  <div class="modal">
+    <h2>Registrar movimento</h2>
+    <form id="form-movimento">
+      <div class="campo">
+        <label>Produto *</label>
+        <select id="movimento-produto" required style="width:100%; padding:12px 14px; border:1px solid var(--borda); border-radius:8px; font-family:'Jost',sans-serif; font-size:15px;"></select>
+      </div>
+      <div class="campo">
+        <label>Tipo *</label>
+        <select id="movimento-tipo" required style="width:100%; padding:12px 14px; border:1px solid var(--borda); border-radius:8px; font-family:'Jost',sans-serif; font-size:15px;">
+          <option value="entrada">Entrada (soma ao estoque)</option>
+          <option value="ajuste">Ajuste (pode somar ou subtrair)</option>
+        </select>
+      </div>
+      <div class="linha-dupla">
+        <div class="campo">
+          <label>Quantidade *</label>
+          <input type="number" id="movimento-quantidade" step="0.01" required>
+          <div style="font-size:11px; color:var(--texto-suave); margin-top:4px;">Em ajuste, use número negativo para subtrair</div>
+        </div>
+        <div class="campo">
+          <label>Preço unitário (precificação)</label>
+          <input type="number" id="movimento-valor" step="0.01">
+        </div>
+      </div>
+      <div class="campo">
+        <label>Cliente (opcional)</label>
+        <select id="movimento-cliente" style="width:100%; padding:12px 14px; border:1px solid var(--borda); border-radius:8px; font-family:'Jost',sans-serif; font-size:15px;"><option value="">Nenhum</option></select>
+      </div>
+      <div class="campo">
+        <label>Observação</label>
+        <input type="text" id="movimento-observacao">
+      </div>
+      <div class="modal-acoes">
+        <button type="button" class="btn-cancelar" onclick="document.getElementById('modal-movimento').classList.remove('ativo')">Cancelar</button>
+        <button type="submit" class="btn-principal">Registrar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL COMPRA / ENTRADA -->
+<div id="modal-compra" class="modal-fundo">
+  <div class="modal" style="max-width:600px;">
+    <h2>Nova compra / entrada de produtos</h2>
+    <form id="form-compra">
+      <div class="linha-dupla">
+        <div class="campo">
+          <label>Fornecedor</label>
+          <select id="compra-fornecedor" style="width:100%; padding:12px 14px; border:1px solid var(--borda); border-radius:8px; font-family:'Jost',sans-serif; font-size:15px;"><option value="">Nenhum</option></select>
+        </div>
+        <div class="campo">
+          <label>Nº da Nota Fiscal</label>
+          <input type="text" id="compra-nf">
+        </div>
+      </div>
+      <div class="campo">
+        <label>Data de entrada</label>
+        <input type="date" id="compra-data">
+      </div>
+
+      <div class="campo">
+        <label>Itens</label>
+        <div id="lista-itens-compra"></div>
+        <button type="button" class="btn-cancelar" id="btn-add-item-compra" style="margin-top:4px; width:auto; padding:8px 16px; font-size:13px;">+ Adicionar item</button>
+      </div>
+
+      <div class="campo">
+        <label>Observação</label>
+        <input type="text" id="compra-observacao">
+      </div>
+
+      <div style="text-align:right; font-family:'Cormorant Garamond',serif; font-size:20px; margin:10px 0;">
+        Total: <strong id="compra-total-preview">R$ 0,00</strong>
+      </div>
+
+      <div class="modal-acoes">
+        <button type="button" class="btn-cancelar" onclick="document.getElementById('modal-compra').classList.remove('ativo')">Cancelar</button>
+        <button type="submit" class="btn-principal">Registrar compra</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL PEDIDO (CONTROLE INDIVIDUAL) -->
+<div id="modal-pedido" class="modal-fundo">
+  <div class="modal" style="max-width:660px;">
+    <h2 id="modal-pedido-titulo">Novo Controle Individual</h2>
+    <div id="pedido-numero-info" style="font-size:12px; color:var(--texto-suave); margin-bottom:10px;"></div>
+    <form id="form-pedido">
+      <input type="hidden" id="pedido-id">
+      <div class="linha-dupla">
+        <div class="campo">
+          <label>Cliente *</label>
+          <select id="pedido-cliente" required onchange="mostrarContatoCliente()" style="width:100%; padding:12px 14px; border:1px solid var(--borda); border-radius:8px; font-family:'Jost',sans-serif; font-size:15px;"></select>
+          <div id="pedido-contato-cliente" style="font-size:12px; color:var(--texto-suave); margin-top:5px;"></div>
+        </div>
+        <div class="campo">
+          <label>Data</label>
+          <input type="date" id="pedido-data">
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>Itens</label>
+        <div id="lista-itens-pedido"></div>
+        <button type="button" class="btn-cancelar" id="btn-add-item" style="margin-top:4px; width:auto; padding:8px 16px; font-size:13px;">+ Adicionar item</button>
+      </div>
+
+      <div class="campo">
+        <label>Valor antecipado (R$)</label>
+        <input type="number" id="pedido-antecipado" step="0.01" value="0">
+        <div style="font-size:11px; color:var(--texto-suave); margin-top:4px;">Valor já repassado pelo cliente — abate do saldo em aberto, não do preço dos produtos</div>
+      </div>
+
+      <div class="linha-dupla">
+        <div class="campo">
+          <label>Desconto (R$)</label>
+          <input type="number" id="pedido-desconto" step="0.01" value="0">
+        </div>
+        <div class="campo">
+          <label>Frete (R$)</label>
+          <input type="number" id="pedido-frete" step="0.01" value="0">
+        </div>
+      </div>
+
+      <div style="text-align:right; font-size:12px; color:var(--texto-suave); margin-bottom:6px;" id="pedido-aberto-preview"></div>
+
+      <div class="campo">
+        <label>Observação</label>
+        <input type="text" id="pedido-observacao">
+      </div>
+
+      <div class="campo">
+        <label>Forma de pagamento</label>
+        <select id="pedido-forma-pagamento" style="width:100%; padding:12px 14px; border:1px solid var(--borda); border-radius:8px; font-family:'Jost',sans-serif; font-size:15px;">
+          <option value="">Não informado</option>
+          <option value="Pix">Pix</option>
+          <option value="Dinheiro">Dinheiro</option>
+          <option value="Cartão de crédito">Cartão de crédito</option>
+          <option value="Cartão de débito">Cartão de débito</option>
+          <option value="Transferência">Transferência</option>
+          <option value="Boleto">Boleto</option>
+        </select>
+      </div>
+
+      <div style="text-align:right; font-family:'Cormorant Garamond',serif; font-size:22px; margin:10px 0;">
+        Total: <strong id="pedido-total-preview">R$ 0,00</strong>
+      </div>
+
+      <div class="modal-acoes">
+        <button type="button" class="btn-cancelar" onclick="document.getElementById('modal-pedido').classList.remove('ativo')">Cancelar</button>
+        <button type="submit" class="btn-principal">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL CUSTO FIXO/VARIÁVEL -->
+<div id="modal-custo" class="modal-fundo">
+  <div class="modal">
+    <h2 id="modal-custo-titulo">Novo custo</h2>
+    <form id="form-custo">
+      <input type="hidden" id="custo-tipo">
+      <div class="campo">
+        <label>Nome *</label>
+        <input type="text" id="custo-nome" required placeholder="Ex: Aluguel, Embalagem, Comissão...">
+      </div>
+      <div class="campo" id="bloco-custo-valor">
+        <label>Valor mensal (R$) *</label>
+        <input type="number" id="custo-valor" step="0.01">
+      </div>
+      <div class="campo" id="bloco-custo-percentual">
+        <label>Percentual sobre a venda (%) *</label>
+        <input type="number" id="custo-percentual" step="0.01" placeholder="Ex: 8 para 8%">
+      </div>
+      <div class="modal-acoes">
+        <button type="button" class="btn-cancelar" onclick="document.getElementById('modal-custo').classList.remove('ativo')">Cancelar</button>
+        <button type="submit" class="btn-principal">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL CONFIRMAR AÇÃO (substitui o confirm() nativo do navegador) -->
+<div id="modal-confirmar" class="modal-fundo">
+  <div class="modal" style="max-width:380px; text-align:center;">
+    <div style="font-size:32px; margin-bottom:12px;">🌿</div>
+    <p id="confirmar-mensagem" style="font-size:15px; color:var(--texto-principal); margin-bottom:22px; line-height:1.5;"></p>
+    <div class="modal-acoes">
+      <button type="button" class="btn-cancelar" id="btn-confirmar-nao">Cancelar</button>
+      <button type="button" class="btn-principal" id="btn-confirmar-sim" style="background:var(--erro);">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CATEGORIA -->
+<div id="modal-categoria" class="modal-fundo">
+  <div class="modal" style="max-width:380px;">
+    <h2>Nova categoria</h2>
+    <form id="form-categoria">
+      <input type="hidden" id="categoria-id">
+      <div class="campo">
+        <label>Nome *</label>
+        <input type="text" id="categoria-nome" required>
+      </div>
+      <div class="campo">
+        <label>Tipo *</label>
+        <select id="categoria-tipo" required style="width:100%; padding:12px 14px; border:1px solid var(--borda); border-radius:8px; font-family:'Jost',sans-serif; font-size:15px;">
+          <option value="produto">Produto</option>
+          <option value="financeira">Financeira</option>
+        </select>
+      </div>
+      <div class="modal-acoes">
+        <button type="button" class="btn-cancelar" onclick="document.getElementById('modal-categoria').classList.remove('ativo')">Cancelar</button>
+        <button type="submit" class="btn-principal">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL FORNECEDOR -->
+<div id="modal-fornecedor" class="modal-fundo">
+  <div class="modal">
+    <h2 id="modal-fornecedor-titulo">Novo fornecedor</h2>
+    <form id="form-fornecedor">
+      <input type="hidden" id="fornecedor-id">
+      <div class="campo">
+        <label>Nome *</label>
+        <input type="text" id="fornecedor-nome" required>
+      </div>
+      <div class="linha-dupla">
+        <div class="campo">
+          <label>Contato</label>
+          <input type="text" id="fornecedor-contato">
+        </div>
+        <div class="campo">
+          <label>Telefone</label>
+          <input type="text" id="fornecedor-telefone">
+        </div>
+      </div>
+      <div class="campo">
+        <label>E-mail</label>
+        <input type="email" id="fornecedor-email">
+      </div>
+      <div class="modal-acoes">
+        <button type="button" class="btn-cancelar" onclick="document.getElementById('modal-fornecedor').classList.remove('ativo')">Cancelar</button>
+        <button type="submit" class="btn-principal">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL PRODUTO -->
+<div id="modal-produto" class="modal-fundo">
+  <div class="modal">
+    <h2 id="modal-produto-titulo">Novo produto</h2>
+    <form id="form-produto">
+      <input type="hidden" id="produto-id">
+      <div class="campo">
+        <label>Imagem</label>
+        <input type="file" id="produto-imagem" accept="image/*">
+        <img id="produto-imagem-preview" style="display:none; max-width:80px; margin-top:8px; border-radius:6px;">
+      </div>
+      <div class="campo">
+        <label>Nome *</label>
+        <input type="text" id="produto-nome" required>
+      </div>
+      <div class="linha-dupla">
+        <div class="campo">
+          <label>Unidade</label>
+          <input type="text" id="produto-unidade" placeholder="ml, un, kg...">
+        </div>
+        <div class="campo">
+          <label>Quantidade</label>
+          <input type="number" id="produto-quantidade" step="0.01" value="0">
+        </div>
+      </div>
+      <div class="linha-dupla">
+        <div class="campo">
+          <label>Valor de custo</label>
+          <input type="number" id="produto-custo" step="0.01" value="0">
+        </div>
+        <div class="campo">
+          <label>Valor de venda</label>
+          <input type="number" id="produto-venda" step="0.01" value="0">
+        </div>
+      </div>
+      <div class="linha-dupla">
+        <div class="campo">
+          <label>Validade</label>
+          <input type="date" id="produto-validade">
+        </div>
+        <div class="campo">
+          <label>Categoria</label>
+          <select id="produto-categoria" style="width:100%; padding:12px 14px; border:1px solid var(--borda); border-radius:8px; font-family:'Jost',sans-serif; font-size:15px;"></select>
+        </div>
+      </div>
+      <div class="campo">
+        <label>Fornecedor</label>
+        <select id="produto-fornecedor" style="width:100%; padding:12px 14px; border:1px solid var(--borda); border-radius:8px; font-family:'Jost',sans-serif; font-size:15px;"></select>
+      </div>
+      <div class="campo">
+        <label>Observação</label>
+        <input type="text" id="produto-observacao">
+      </div>
+      <div class="modal-acoes">
+        <button type="button" class="btn-cancelar" onclick="document.getElementById('modal-produto').classList.remove('ativo')">Cancelar</button>
+        <button type="submit" class="btn-principal">Salvar produto</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL CLIENTE -->
+<div id="modal-cliente" class="modal-fundo">
+  <div class="modal">
+    <h2 id="modal-titulo">Novo cliente</h2>
+    <div id="erro-modal" class="mensagem-erro"></div>
+    <form id="form-cliente">
+      <input type="hidden" id="cliente-id">
+      <div class="campo">
+        <label>Nome completo *</label>
+        <input type="text" id="cliente-nome" required>
+      </div>
+      <div class="linha-dupla">
+        <div class="campo">
+          <label>CPF / CNPJ</label>
+          <input type="text" id="cliente-documento">
+        </div>
+        <div class="campo">
+          <label>Telefone</label>
+          <input type="text" id="cliente-telefone">
+        </div>
+      </div>
+      <div class="campo">
+        <label>E-mail</label>
+        <input type="email" id="cliente-email">
+      </div>
+      <div class="campo">
+        <label>Endereço</label>
+        <input type="text" id="cliente-endereco">
+      </div>
+      <div class="campo">
+        <label>Status</label>
+        <select id="cliente-status" style="width:100%; padding:12px 14px; border:1px solid var(--borda); border-radius:8px; font-family:'Jost',sans-serif; font-size:15px;">
+          <option value="ativo">Ativo</option>
+          <option value="inativo">Inativo</option>
+        </select>
+      </div>
+      <div class="campo">
+        <label>Observação</label>
+        <input type="text" id="cliente-observacao">
+      </div>
+      <div class="modal-acoes">
+        <button type="button" class="btn-cancelar" id="btn-cancelar-modal">Cancelar</button>
+        <button type="submit" class="btn-principal">Salvar cliente</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/js/supabase-client.js"></script>
+<script src="assets/js/utils.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/clientes.js"></script>
+<script src="assets/js/empresa.js"></script>
+<script src="assets/js/categorias.js"></script>
+<script src="assets/js/fornecedores.js"></script>
+<script src="assets/js/produtos.js"></script>
+<script src="assets/js/estoque.js"></script>
+<script src="assets/js/compras.js"></script>
+<script src="assets/js/pedidos.js"></script>
+<script src="assets/js/financeiro.js"></script>
+<script src="assets/js/consorcio.js"></script>
+<script src="assets/js/dashboard.js"></script>
+<script src="assets/js/nav.js"></script>
+</body>
+</html>
